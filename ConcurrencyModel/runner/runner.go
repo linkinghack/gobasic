@@ -1,9 +1,9 @@
 package runner
 
 import (
-	"os/signal"
 	"errors"
 	"os"
+	"os/signal"
 	"time"
 )
 
@@ -20,22 +20,23 @@ type Runner struct {
 var ErrTimeout = errors.New("received timeout")
 var ErrInterrupt = errors.New("received interrupt")
 
-// 返回一个新的Runner
+// New 工厂方法，返回一个新的Runner
 func New(d time.Duration) *Runner {
 	return &Runner{
-		interrupt: make(chan os.Signal,1),
-		complete: make(chan error),
-		timeout: time.After(d), // After() 返回一个 <-chan time.Time， 当d时间过去后
+		interrupt: make(chan os.Signal, 1), // 缓冲大小为1， 至少可接受一个操作系统发来的interrupt
+		complete:  make(chan error),        // 无缓冲通道
+		timeout:   time.After(d),           // After() 返回一个 <-chan time.Time， 当d时间过去后
+		// task 字段默认的nil
 	}
 }
 
 // Add 将任意多个func(int) 作为任务添加到runner对象中
-func (r *Runner) Add(tasks ..func(int)){
-	r.tasks = append(r.tasks,tasks) // 注意append() 方法将创建新对象
+func (r *Runner) Add(tasks ...func(int)) {
+	r.tasks = append(r.tasks, tasks...) // 注意append() 方法将创建新对象
 }
 
 func (r *Runner) Start() error {
-	signal.Notify(r.interrupt,os.Interrupt) // 接收中断信号, 系统Interrupt 只想自定义Interrupt （os.Interrupt接口）
+	signal.Notify(r.interrupt, os.Interrupt) // 接收中断信号, 系统Interrupt 只想自定义Interrupt （os.Interrupt接口）
 
 	// 用不同goroutine处理任务
 	go func() {
@@ -65,7 +66,7 @@ func (r *Runner) run() error {
 
 func (r *Runner) gotInterrupt() bool {
 	select {
-	case <-r.Interrupt:
+	case <-r.interrupt:
 		signal.Stop(r.interrupt)
 		return true
 
