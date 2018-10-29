@@ -1,5 +1,9 @@
 package pool
 
+/**
+* Pool is a goroutine pool with buffered channel
+**/
+
 import (
 	"errors"
 	"io"

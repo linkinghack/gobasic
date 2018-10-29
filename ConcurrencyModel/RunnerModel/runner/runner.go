@@ -36,7 +36,7 @@ func (r *Runner) Add(tasks ...func(int)) {
 }
 
 func (r *Runner) Start() error {
-	signal.Notify(r.interrupt, os.Interrupt) // 接收中断信号, 系统Interrupt 只想自定义Interrupt （os.Interrupt接口）
+	signal.Notify(r.interrupt, os.Interrupt) // 接收中断信号, 系统Interrupt 自定义Interrupt （os.Interrupt接口）
 
 	// 用不同goroutine处理任务
 	go func() {
@@ -58,7 +58,7 @@ func (r *Runner) run() error {
 			return ErrInterrupt
 		}
 
-		//若没同时中断则执行任务
+		//若没中断则执行任务
 		task(id)
 	}
 	return nil // 无错误，未被中断
