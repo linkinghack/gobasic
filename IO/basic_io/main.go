@@ -11,7 +11,7 @@ func main() {
 	r := bufio.NewReader(os.Stdin)
 	rw := bufio.NewReadWriter(r, w)
 
-	rw.WriteString("hello world, this is go basic io method!!,  input something: ")
+	rw.WriteString("hello world, this is go basic IO method!!,  input something: ")
 	rw.Flush()
 
 	text, err := rw.ReadString('\n')
