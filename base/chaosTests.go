@@ -33,14 +33,16 @@ func (t Top) where() string {
 func main() {
 	fmt.Println(runtime.GOOS)
 
-	t := Top{Base{"linking"}, "Tian Jin"}
-	t.hello()
-	fmt.Println(t.name)
+	SliceOfStructEditableTest()
 
-	sbuilder := strings.Builder{}
+	// t := Top{Base{"linking"}, "Tian Jin"}
+	// t.hello()
+	// fmt.Println(t.name)
 
-	sbuilder.Write([]byte{68, 78, 98, 112})
-	fmt.Println(sbuilder.String())
+	// sbuilder := strings.Builder{}
+
+	// sbuilder.Write([]byte{68, 78, 98, 112})
+	// fmt.Println(sbuilder.String())
 
 	//fmt.Println("default pointer in struct: ",tnode.Right)
 	//
@@ -135,6 +137,25 @@ func TwoDimensionalSliceTest() {
 	for j := 0; j < len(board); j++ {
 		fmt.Println(board[j])
 	}
+}
+
+func SliceOfStructEditableTest() {
+	type Person struct {
+		name string
+		age  int
+	}
+
+	people := []Person{
+		{name: "linking", age: 19},
+		{name: "hahah", age: 24},
+	}
+
+	for _, p := range people {
+		p.name = "changed"
+		p.age = 100
+	}
+
+	fmt.Printf("People: %+v", people)
 }
 
 func SliceTest() {
