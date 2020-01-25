@@ -3,6 +3,45 @@ package main
 import "fmt"
 
 func main() {
+	ArrayAsParameter()
+}
+
+func ArrayAsParameter() {
+	funcRecvSlice := func(nums []int) []int {
+		nums[0] = 100
+
+		return nums
+	}
+
+	funcRecvArray := func(nums [5]int) [5]int {
+		nums[0] = 1000
+		return nums
+	}
+
+	numArray := [...]int{1, 2, 3, 4, 5} // array
+	numSlice := []int{1, 2, 3, 4, 5}    // slice
+
+	// 传递切片
+	// 切片和数组的外在区别为是否指定长度
+	// numArray通过 ... 间接的指定了长度，所以是数组
+	// numSlice 则一开始就是一个切片，其对应的数组永远无法获得
+	fmt.Printf("Before: %+v\n", numSlice)
+	sliceRtn := funcRecvSlice(numSlice[:])
+	fmt.Printf("After funcRecvSlice: %+v\n", numSlice)
+	fmt.Printf("funcRecvSlice Returned: %+v\n", sliceRtn)
+
+	// 传递数组
+	// 数组在函数参数和返回时都是拷贝传递
+	// 会发生整个数组的复制
+	arrRtn := funcRecvArray(numArray)
+	fmt.Printf("After funcRecvArray: %+v\n", numArray)
+	fmt.Printf("funcRecvArray return: %+v\n", arrRtn)
+	arrRtn[0] = 2000
+	fmt.Printf("After edit array returned: origin=%+v, rtn=%+v\n", numArray, arrRtn)
+
+}
+
+func ArraySlice() {
 	var a [2]string
 	a[0] = "hello"
 	a[1] = "world"
@@ -17,13 +56,18 @@ func main() {
 	s[2] = 100
 	fmt.Println("修改后切片:", s)
 	fmt.Println("修改后primes:", primes)
+}
 
+func SliceLiteral() {
 	//slice literals 切片字面量
 	q := []int{2, 3, 5, 7, 11, 13}
 	fmt.Println(q)
 
 	r := []bool{true, false, true, true, false, true}
 	fmt.Println(r)
+}
+
+func SliceIndexing() {
 
 	ss := []struct {
 		i int
