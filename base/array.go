@@ -3,7 +3,17 @@ package main
 import "fmt"
 
 func main() {
-	ArrayAsParameter()
+	// ArrayAsParameter()
+	MultiDimensionalArray()
+}
+
+func MultiDimensionalArray() {
+	matrix := [3][3]int{{1, 2, 3}, {1, 2, 3}, {1, 2, 3}}
+	// cube := [][][]int{}
+	for i, v := range matrix {
+		// v is an array of in with size 3
+		fmt.Printf("Index: %d, Value: %d\n", i, v)
+	}
 }
 
 func ArrayAsParameter() {
