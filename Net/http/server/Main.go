@@ -15,8 +15,16 @@ func (h fooHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	basicHttpServer()
+	//basicHttpServer()
+	defaultServer()
+}
 
+func defaultServer() {
+	http.HandleFunc("/hello", func(writer http.ResponseWriter, request *http.Request) {
+		writer.Write([]byte("hello, go web"))
+	})
+
+	http.ListenAndServe(":8089", nil)
 }
 
 func basicHttpServer() {

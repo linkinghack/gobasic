@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"reflect"
 	"unicode/utf8"
 )
 
@@ -13,8 +14,12 @@ func main() {
 		r, rsize := utf8.DecodeRuneInString(rawStr)
 		// var c rune = '\xDF'
 
-		fmt.Printf("Rune: %x, byte: %x\n", r, byte(r))
-		rawStr = rawStr[rsize:]
+		fmt.Printf("Rune: %c, byte: %x\n", r, byte(r))
+		rawStr = rawStr[rsize:] // Skip one character
+
 	}
+
+	c := '中'
+	fmt.Println(reflect.TypeOf(c).Name())
 
 }

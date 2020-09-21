@@ -3,8 +3,8 @@ package main
 import "fmt"
 
 func main() {
-	// ArrayAsParameter()
-	MultiDimensionalArray()
+	ArrayAsParameter()
+	//MultiDimensionalArray()
 }
 
 func MultiDimensionalArray() {
@@ -28,6 +28,10 @@ func ArrayAsParameter() {
 		return nums
 	}
 
+	funcRecvSlicePointer := func(nums *[]int) {
+		*nums = append(*nums, 1000)
+	}
+
 	numArray := [...]int{1, 2, 3, 4, 5} // array
 	numSlice := []int{1, 2, 3, 4, 5}    // slice
 
@@ -37,8 +41,10 @@ func ArrayAsParameter() {
 	// numSlice 则一开始就是一个切片，其对应的数组永远无法获得
 	fmt.Printf("Before: %+v\n", numSlice)
 	sliceRtn := funcRecvSlice(numSlice[:])
-	fmt.Printf("After funcRecvSlice: %+v\n", numSlice)
+	fmt.Printf("After funcRecvSlice: %+v\n", numSlice) // 原始slice未改变
 	fmt.Printf("funcRecvSlice Returned: %+v\n", sliceRtn)
+	funcRecvSlicePointer(&numSlice)
+	fmt.Printf("After funcRecvSlicePointer: %+v\n", numSlice)
 
 	// 传递数组
 	// 数组在函数参数和返回时都是拷贝传递
